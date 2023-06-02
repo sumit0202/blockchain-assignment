@@ -1,0 +1,57 @@
+=============== Jun 1, 2023 (IST) ===============
+19:06:04.323620 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+19:06:04.325037 db@open opening
+19:06:04.325340 version@stat F·[] S·0B[] Sc·[]
+19:06:04.326453 db@janitor F·2 G·0
+19:06:04.326471 db@open done T·1.424832ms
+19:06:04.329274 db@close closing
+19:06:04.329313 db@close done T·33.976µs
+=============== Jun 1, 2023 (IST) ===============
+19:12:01.187244 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+19:12:01.187396 version@stat F·[] S·0B[] Sc·[]
+19:12:01.187401 db@open opening
+19:12:01.187417 journal@recovery F·1
+19:12:01.187673 journal@recovery recovering @1
+19:12:01.190233 memdb@flush created L0@2 N·1002 S·10KiB "SIM1,v1001":"SIM999,v999"
+19:12:01.190686 version@stat F·[1] S·10KiB[10KiB] Sc·[0.25]
+19:12:01.193044 db@janitor F·3 G·0
+19:12:01.193056 db@open done T·5.651304ms
+19:12:01.195929 db@close closing
+19:12:01.195968 db@close done T·37.421µs
+=============== Jun 2, 2023 (IST) ===============
+10:30:09.277623 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+10:30:09.279838 version@stat F·[1] S·10KiB[10KiB] Sc·[0.25]
+10:30:09.279848 db@open opening
+10:30:09.279871 journal@recovery F·1
+10:30:09.280058 journal@recovery recovering @3
+10:30:09.281631 memdb@flush created L0@5 N·1002 S·10KiB "SIM1,v2004":"SIM999,v2002"
+10:30:09.282021 version@stat F·[2] S·20KiB[20KiB] Sc·[0.50]
+10:30:09.284276 db@janitor F·4 G·0
+10:30:09.284295 db@open done T·4.439059ms
+10:30:09.287708 db@close closing
+10:30:09.287736 db@close done T·27.548µs
+=============== Jun 2, 2023 (IST) ===============
+10:31:06.559884 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+10:31:06.560062 version@stat F·[2] S·20KiB[20KiB] Sc·[0.50]
+10:31:06.560068 db@open opening
+10:31:06.560088 journal@recovery F·1
+10:31:06.560315 journal@recovery recovering @6
+10:31:06.562400 memdb@flush created L0@8 N·1002 S·10KiB "SIM1,v3007":"SIM999,v3005"
+10:31:06.562801 version@stat F·[3] S·31KiB[31KiB] Sc·[0.75]
+10:31:06.565112 db@janitor F·5 G·0
+10:31:06.565135 db@open done T·5.058579ms
+10:31:06.569225 db@close closing
+10:31:06.569274 db@close done T·37.869µs
+=============== Jun 2, 2023 (IST) ===============
+14:15:47.371536 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+14:15:47.376435 version@stat F·[3] S·31KiB[31KiB] Sc·[0.75]
+14:15:47.376456 db@open opening
+14:15:47.376492 journal@recovery F·1
+14:15:47.376823 journal@recovery recovering @9
+14:15:47.382965 memdb@flush created L0@11 N·1002 S·10KiB "SIM1,v4010":"SIM999,v4008"
+14:15:47.383279 version@stat F·[4] S·41KiB[41KiB] Sc·[1.00]
+14:15:47.385870 db@janitor F·6 G·0
+14:15:47.385887 db@open done T·9.421093ms
+14:15:47.385924 table@compaction L0·4 -> L1·0 S·41KiB Q·4017
+14:15:47.388642 db@close closing
+14:15:47.397456 db@close done T·8.812948ms
