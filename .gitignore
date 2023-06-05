@@ -1,1 +1,8 @@
 db/*
+
+**/*.log
+**/*.ldb
+**/MANIFEST*
+**/CURRENT*
+**/LOCK*
+**/LOG*
