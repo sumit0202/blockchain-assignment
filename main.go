@@ -81,12 +81,16 @@ func (b *BlockImpl) UpdateBlockStatus(status BlockStatus) error {
 }
 
 func writeBlockToFile(blockChannel chan Block) {
+	// Create DB connection
 	file, err := os.OpenFile("./db/ledger.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	// Handle error
 	if err != nil {
+		
 		log.Fatal(err)
 	}
 	defer file.Close()
 
+	// Iterating Transaction to  create Block
 	for block := range blockChannel {
 		blockJSON, err := json.Marshal(block)
 		if err != nil {
