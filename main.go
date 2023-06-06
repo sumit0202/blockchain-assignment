@@ -53,7 +53,7 @@ func NewBlockImpl(db *leveldb.DB) *BlockImpl {
 	return &BlockImpl{db: db}
 }
 
-func (b *BlockImpl) PushTxns(txns []Txn) error {
+func (b *BlockImpl) PushTxns(block *Block, txns []Txn) error {
 	startTime := time.Now()
 
 	var wg sync.WaitGroup
@@ -64,6 +64,7 @@ func (b *BlockImpl) PushTxns(txns []Txn) error {
 			hash := sha256.Sum256([]byte(fmt.Sprintf("%v", txns[i])))
 			txns[i].Hash = fmt.Sprintf("%x", hash)
 			if val, err := b.db.Get([]byte(txns[i].Key), nil); err == nil {
+				fmt.Println(string(val))
 				var value Value
 				if err := json.Unmarshal(val, &value); err == nil {
 					if value.Ver == txns[i].Value.Ver {
@@ -77,7 +78,8 @@ func (b *BlockImpl) PushTxns(txns []Txn) error {
 		}(i)
 	}
 	wg.Wait()
-    
+	block.BlockStatus = Committed
+    //sumit's code
 	duration := time.Since(startTime)
     seconds := duration.Seconds()
 	fmt.Printf("Block Number: %d\n", txns[0].BlockNumber)
@@ -90,23 +92,16 @@ func (b *BlockImpl) UpdateBlockStatus(status BlockStatus) error {
 	return nil
 }
 
-func writeBlockToFile(blockChannel chan Block) {
+func writeBlockToFile(data []byte) {
 	file, err := os.OpenFile("./db/ledger.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
 
-	for block := range blockChannel {
-		blockJSON, err := json.Marshal(block)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		if _, err := file.WriteString(string(blockJSON) + "\n"); err != nil {
-			log.Fatal(err)
-		}
-	}
+	if _, err := file.WriteString(string(data) + "\n"); err != nil {
+				log.Fatal(err)
+			}
 }
 
 func getBlockByNumber(blockNumber int) (*Block, error) {
@@ -177,11 +172,8 @@ func main() {
             log.Println("Error putting value into LeveDB:",err)
         }
     }
-
+	
 	blockImpl := NewBlockImpl(db)
-
-	blockChannel := make(chan Block)
-	go writeBlockToFile(blockChannel)
 
 	txns := []Txn{
 		{BlockNumber: 1, Key: "SIM1", Value: Value{Val: 2, Ver: 1.0}},
@@ -197,8 +189,6 @@ func main() {
 		BlockStatus:   Pending,
 	}
 
-	blockChannel <- block
-
 	blockNumber := 1
 	blk, err := getBlockByNumber(blockNumber)
 	if err != nil {
@@ -206,7 +196,6 @@ func main() {
 	}
 	fmt.Printf("Block Number: %d\n", blk.BlockNumber)
 	fmt.Printf("Previous Block Hash: %s\n", blk.PrevBlockHash)
-	// Print other block details as needed
 
 	t := time.Unix(blk.Timestamp, 0)
 	fmt.Printf("Timestamp: %v\n", t.Format("2006-01-02 15:04:05"))
@@ -216,17 +205,15 @@ func main() {
 		log.Fatal(err)
 	}
 
-    block.BlockStatus = Committed
 	for _, block := range blks {
 		fmt.Printf("Block Number: %d\n", block.BlockNumber)
         fmt.Printf("BlockStatus: %d\n",block.BlockStatus)
 		fmt.Printf("Previous Block Hash: %s\n", block.PrevBlockHash)
 		fmt.Printf("Timestamp: %v\n", time.Unix(block.Timestamp, 0).Format("2006-01-02 15:04:05"))
-		// Print other block details as needed
-		fmt.Println()
+		fmt.Println()  
 	}
 
-	if err := blockImpl.PushTxns(block.Txns); err != nil {
+	if err := blockImpl.PushTxns(&block, block.Txns); err != nil {
 		log.Fatal(err)
 	}
 
@@ -234,6 +221,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	fmt.Println(string(blockJSON))
+	writeBlockToFile(blockJSON)
 }
